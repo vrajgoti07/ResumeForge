@@ -47,8 +47,7 @@ Resume-Classification/
 │   └── test_pipeline.py        # ML tests
 ├── requirements.txt
 ├── README.md
-├── REPORT.md
-└── HACKATHON_CHECKLIST.md
+└── REPORT.md
 ```
 
 ## 🚀 Quick Start

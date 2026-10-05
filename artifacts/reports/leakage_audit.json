@@ -1,0 +1,9 @@
+{
+  "status": "CLEAN",
+  "id_overlap_train_val": 0,
+  "id_overlap_train_test": 0,
+  "id_overlap_val_test": 0,
+  "text_overlap_train_val": 0,
+  "text_overlap_train_test": 0,
+  "text_overlap_val_test": 0
+}

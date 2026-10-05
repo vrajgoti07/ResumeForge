@@ -1,0 +1,9 @@
+{
+  "selected_model": "LinearSVC",
+  "selected_type": "Classical (TF-IDF)",
+  "accuracy": 0.67828418230563,
+  "macro_f1": 0.6305179412312517,
+  "weighted_f1": 0.6535874036190623,
+  "selection_criterion": "Macro-F1 (primary), with consideration for interpretability and speed",
+  "timestamp": "2026-10-05T11:24:36.732107"
+}

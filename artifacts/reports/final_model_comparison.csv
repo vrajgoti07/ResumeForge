@@ -1,0 +1,3 @@
+Model,Type,Accuracy,Macro-F1,Weighted-F1,Strengths,Weaknesses
+LinearSVC,Classical (TF-IDF),0.67828418230563,0.6305179412312517,0.6535874036190623,"Fast training, interpretable, strong baseline",No sequential understanding
+BiLSTM + Word2Vec,Deep Learning,0.6648793565683646,0.5947110764206145,0.6434939933816274,"Captures sequential patterns, learned embeddings","Slower, requires more data, less interpretable"

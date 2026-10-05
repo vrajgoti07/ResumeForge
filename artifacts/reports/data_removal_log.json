@@ -1,0 +1,26 @@
+[
+  {
+    "reason": "Empty Resume_str",
+    "count": "1",
+    "records": [
+      {
+        "ID": 12632728,
+        "Category": "BUSINESS-DEVELOPMENT"
+      }
+    ]
+  },
+  {
+    "reason": "Duplicate Resume_str",
+    "count": "2",
+    "records": [
+      {
+        "ID": 28398216,
+        "Category": "FINANCE"
+      },
+      {
+        "ID": 37473139,
+        "Category": "AVIATION"
+      }
+    ]
+  }
+]

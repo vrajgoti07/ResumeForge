@@ -24,14 +24,15 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── Custom CSS for Premium Glassmorphism & Edge-to-Edge Utilization ──
+# ── Custom CSS for Premium Deep Space & Electric Indigo Aesthetic ──
 st.markdown("""
 <style>
 /* Font and Base Theme */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
-html, body, [class*="css"] {
+html, body, [class*="css"], .stApp {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #080C14 !important;
 }
 
 /* Eliminate excessive default Streamlit padding */
@@ -45,13 +46,13 @@ html, body, [class*="css"] {
 
 /* Header Banner */
 .hero-header {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(13, 20, 36, 0.95) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.3);
     border-radius: 16px;
     padding: 1.8rem 2.2rem;
     margin-bottom: 1.5rem;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 32px 0 rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -60,33 +61,35 @@ html, body, [class*="css"] {
 }
 
 .hero-title-group h1 {
-    font-size: 2.2rem;
+    font-size: 2.3rem;
     font-weight: 800;
     margin: 0;
-    background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%);
+    background: linear-gradient(135deg, #FFFFFF 0%, #E0E7FF 40%, #818CF8 75%, #38BDF8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.02em;
+    filter: drop-shadow(0 2px 10px rgba(99, 102, 241, 0.35));
 }
 
 .hero-title-group p {
     color: #94A3B8;
-    margin: 0.3rem 0 0 0;
+    margin: 0.35rem 0 0 0;
     font-size: 0.95rem;
     font-weight: 500;
 }
 
 .badge-pill {
-    background: rgba(99, 102, 241, 0.15);
-    border: 1px solid rgba(129, 140, 248, 0.4);
-    color: #C7D2FE;
-    font-size: 0.78rem;
+    background: rgba(99, 102, 241, 0.12);
+    border: 1px solid rgba(129, 140, 248, 0.35);
+    color: #E0E7FF;
+    font-size: 0.8rem;
     font-weight: 600;
-    padding: 0.35rem 0.85rem;
+    padding: 0.4rem 0.95rem;
     border-radius: 9999px;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.45rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
 /* Metric Cards Grid */
@@ -98,12 +101,24 @@ html, body, [class*="css"] {
 }
 
 .metric-card {
-    background: rgba(17, 24, 39, 0.7);
+    background: linear-gradient(180deg, rgba(20, 27, 44, 0.8) 0%, rgba(12, 17, 30, 0.9) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
-    padding: 1rem 1.2rem;
-    backdrop-filter: blur(8px);
+    padding: 1.1rem 1.3rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.4);
+}
+
+.metric-card.kpi-emerald { border-top: 3px solid #10B981; }
+.metric-card.kpi-cyan { border-top: 3px solid #06B6D4; }
+.metric-card.kpi-indigo { border-top: 3px solid #8B5CF6; }
+.metric-card.kpi-amber { border-top: 3px solid #F59E0B; }
 
 .metric-card-label {
     color: #94A3B8;
@@ -114,33 +129,32 @@ html, body, [class*="css"] {
 }
 
 .metric-card-val {
-    color: #F8FAFC;
-    font-size: 1.4rem;
+    font-size: 1.45rem;
     font-weight: 800;
     margin-top: 0.2rem;
 }
 
 .metric-card-sub {
-    color: #38BDF8;
-    font-size: 0.75rem;
+    font-size: 0.76rem;
     font-weight: 500;
-    margin-top: 0.1rem;
+    margin-top: 0.15rem;
 }
 
 /* Glass Panels */
 .glass-panel {
-    background: rgba(15, 23, 42, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(145deg, rgba(18, 25, 41, 0.75) 0%, rgba(11, 15, 26, 0.85) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.2);
     border-radius: 14px;
     padding: 1.4rem;
     margin-bottom: 1.2rem;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
 }
 
 .panel-title {
     font-size: 1.1rem;
     font-weight: 700;
-    color: #F1F5F9;
+    color: #F8FAFC;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -149,28 +163,30 @@ html, body, [class*="css"] {
 
 /* Primary Prediction Box */
 .prediction-champion {
-    background: linear-gradient(135deg, rgba(79, 70, 229, 0.2) 0%, rgba(147, 51, 234, 0.2) 100%);
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.25) 0%, rgba(124, 58, 237, 0.22) 50%, rgba(6, 182, 212, 0.18) 100%);
+    border: 1.5px solid rgba(139, 92, 246, 0.55);
     border-radius: 14px;
-    padding: 1.4rem;
+    padding: 1.5rem;
     text-align: center;
     margin-bottom: 1.2rem;
+    box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
 }
 
 .champion-label {
-    color: #C084FC;
-    font-size: 0.8rem;
-    font-weight: 700;
+    color: #A78BFA;
+    font-size: 0.82rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
 }
 
 .champion-category {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 800;
     color: #FFFFFF;
-    margin: 0.3rem 0;
+    margin: 0.35rem 0;
     letter-spacing: -0.01em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .confidence-gauge-container {
@@ -184,8 +200,9 @@ html, body, [class*="css"] {
 
 .gauge-pill {
     background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    padding: 0.4rem 0.9rem;
+    padding: 0.4rem 0.95rem;
     font-size: 0.82rem;
     color: #E2E8F0;
 }
@@ -200,59 +217,122 @@ html, body, [class*="css"] {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.6rem 0.8rem;
-    margin-bottom: 0.45rem;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 0.48rem;
     border-radius: 8px;
-    background: rgba(30, 41, 59, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    background: rgba(22, 30, 48, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .rank-row.winner {
-    background: linear-gradient(90deg, rgba(99, 102, 241, 0.25) 0%, rgba(30, 41, 59, 0.6) 100%);
-    border: 1px solid rgba(129, 140, 248, 0.4);
+    background: linear-gradient(90deg, rgba(99, 102, 241, 0.3) 0%, rgba(22, 30, 48, 0.7) 100%);
+    border: 1px solid rgba(129, 140, 248, 0.45);
 }
 
 .rank-badge {
-    font-weight: 700;
+    font-weight: 800;
     font-size: 0.8rem;
     border-radius: 6px;
-    padding: 0.2rem 0.5rem;
+    padding: 0.22rem 0.55rem;
     min-width: 2rem;
     text-align: center;
 }
 
 .rank-badge.gold {
-    background: #F59E0B;
-    color: #111827;
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+    color: #FFFFFF;
 }
 
 .rank-badge.silver {
-    background: #64748B;
+    background: linear-gradient(135deg, #475569, #334155);
     color: #F8FAFC;
 }
 
 .keyword-tag {
     display: inline-block;
-    background: rgba(56, 189, 248, 0.12);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: #38BDF8;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: #22D3EE;
     border-radius: 6px;
-    padding: 0.2rem 0.55rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin: 0.2rem 0.2rem 0.2rem 0;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin: 0.22rem 0.22rem 0.22rem 0;
 }
 
 /* Faculty Info Box */
 .faculty-note {
-    background: rgba(30, 58, 138, 0.25);
-    border-left: 4px solid #38BDF8;
+    background: linear-gradient(135deg, rgba(30, 58, 138, 0.25) 0%, rgba(49, 46, 129, 0.25) 100%);
+    border-left: 4px solid #6366F1;
     border-radius: 8px;
-    padding: 0.85rem 1rem;
-    color: #BAE6FD;
-    font-size: 0.82rem;
-    line-height: 1.45;
+    padding: 0.9rem 1.1rem;
+    color: #C7D2FE;
+    font-size: 0.83rem;
+    line-height: 1.5;
     margin-top: 1rem;
+}
+
+/* OVERRIDE STREAMLIT RED BUTTON TO ELECTRIC INDIGO GRADIENT */
+button[kind="primary"], div.stButton > button:first-child {
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 50%, #06B6D4 100%) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    font-weight: 700 !important;
+    font-size: 1.02rem !important;
+    letter-spacing: 0.02em !important;
+    padding: 0.65rem 1.5rem !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.45) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+button[kind="primary"]:hover, div.stButton > button:first-child:hover {
+    background: linear-gradient(135deg, #4338CA 0%, #4F46E5 50%, #0891B2 100%) !important;
+    box-shadow: 0 6px 28px rgba(99, 102, 241, 0.7) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* OVERRIDE PROGRESS BAR TO CYBER GRADIENT */
+div[data-testid="stProgress"] > div > div > div > div {
+    background: linear-gradient(90deg, #6366F1 0%, #06B6D4 60%, #10B981 100%) !important;
+    border-radius: 9999px !important;
+}
+
+/* FILE UPLOADER STYLING */
+div[data-testid="stFileUploader"] {
+    background: rgba(18, 25, 41, 0.6) !important;
+    border: 1.5px dashed rgba(99, 102, 241, 0.4) !important;
+    border-radius: 12px !important;
+    padding: 0.8rem !important;
+}
+div[data-testid="stFileUploader"]:hover {
+    border-color: #818CF8 !important;
+}
+div[data-testid="stFileUploader"] button {
+    background: linear-gradient(135deg, #1E293B, #334155) !important;
+    color: #F8FAFC !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important;
+}
+
+/* TEXT AREA STYLING */
+div[data-testid="stTextArea"] textarea {
+    background: rgba(14, 20, 33, 0.75) !important;
+    border: 1px solid rgba(99, 102, 241, 0.25) !important;
+    color: #F8FAFC !important;
+    border-radius: 10px !important;
+}
+div[data-testid="stTextArea"] textarea:focus {
+    border-color: #6366F1 !important;
+    box-shadow: 0 0 12px rgba(99, 102, 241, 0.3) !important;
+}
+
+/* RADIO BUTTONS */
+div[role="radiogroup"] label p {
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    color: #E2E8F0 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -276,25 +356,25 @@ st.markdown("""
 # ── System KPI Metrics Bar ──
 st.markdown("""
 <div class="metrics-grid">
-    <div class="metric-card">
+    <div class="metric-card kpi-emerald">
         <div class="metric-card-label">Industry Categories</div>
-        <div class="metric-card-val">24 Domains</div>
-        <div class="metric-card-sub">Baseline Chance: 4.16%</div>
+        <div class="metric-card-val" style="color: #34D399;">24 Domains</div>
+        <div class="metric-card-sub" style="color: #6EE7B7;">Baseline Chance: 4.16%</div>
     </div>
-    <div class="metric-card">
+    <div class="metric-card kpi-cyan">
         <div class="metric-card-label">Production Model</div>
-        <div class="metric-card-val">LinearSVC</div>
-        <div class="metric-card-sub">Class Weight: Balanced</div>
+        <div class="metric-card-val" style="color: #38BDF8;">LinearSVC</div>
+        <div class="metric-card-sub" style="color: #7DD3FC;">Class Weight: Balanced</div>
     </div>
-    <div class="metric-card">
+    <div class="metric-card kpi-indigo">
         <div class="metric-card-label">Test Macro-F1</div>
-        <div class="metric-card-val">63.05%</div>
-        <div class="metric-card-sub">Accuracy: 67.83%</div>
+        <div class="metric-card-val" style="color: #A78BFA;">63.05%</div>
+        <div class="metric-card-sub" style="color: #C4B5FD;">Accuracy: 67.83%</div>
     </div>
-    <div class="metric-card">
+    <div class="metric-card kpi-amber">
         <div class="metric-card-label">Inference Latency</div>
-        <div class="metric-card-val">&lt; 1.5 ms</div>
-        <div class="metric-card-sub">Sub-millisecond Vectorizer</div>
+        <div class="metric-card-val" style="color: #FBBF24;">&lt; 1.5 ms</div>
+        <div class="metric-card-sub" style="color: #FDE68A;">Sub-millisecond Vectorizer</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -481,18 +561,18 @@ with col_output:
     else:
         # Default placeholder when no resume has been submitted yet
         st.markdown("""
-        <div class="glass-panel" style="text-align: center; padding: 3rem 2rem;">
-            <div style="font-size: 2.8rem; margin-bottom: 0.5rem;">📄</div>
-            <h3 style="color: #F8FAFC; margin: 0;">Awaiting Resume Submission</h3>
-            <p style="color: #94A3B8; max-width: 480px; margin: 0.5rem auto 1.5rem auto; font-size: 0.9rem;">
-                Upload a candidate PDF resume on the left or select a pre-loaded sample profile to view real-time multiclass classification across 24 industry sectors.
+        <div class="glass-panel" style="text-align: center; padding: 3.5rem 2rem; border: 1.5px dashed rgba(99, 102, 241, 0.35);">
+            <div style="font-size: 3.2rem; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 16px rgba(99, 102, 241, 0.45));">📑</div>
+            <h3 style="color: #F8FAFC; margin: 0; font-size: 1.45rem; font-weight: 700;">Awaiting Resume Submission</h3>
+            <p style="color: #94A3B8; max-width: 480px; margin: 0.6rem auto 1.6rem auto; font-size: 0.92rem; line-height: 1.55;">
+                Upload a candidate PDF resume on the left or paste plain text to view real-time multiclass classification across 24 industry sectors.
             </p>
             <div style="display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap;">
-                <span class="badge-pill">IT & Software</span>
-                <span class="badge-pill">Healthcare & Nursing</span>
-                <span class="badge-pill">Culinary & Chef</span>
-                <span class="badge-pill">Banking & Finance</span>
-                <span class="badge-pill">Engineering & Aviation</span>
+                <span class="badge-pill" style="border-color: rgba(56, 189, 248, 0.35); color: #38BDF8; background: rgba(56, 189, 248, 0.08);">💻 IT & Software</span>
+                <span class="badge-pill" style="border-color: rgba(52, 211, 153, 0.35); color: #34D399; background: rgba(52, 211, 153, 0.08);">🏥 Healthcare</span>
+                <span class="badge-pill" style="border-color: rgba(251, 191, 36, 0.35); color: #FBBF24; background: rgba(251, 191, 36, 0.08);">🍳 Culinary</span>
+                <span class="badge-pill" style="border-color: rgba(167, 139, 250, 0.35); color: #A78BFA; background: rgba(167, 139, 250, 0.08);">📊 Banking & Finance</span>
+                <span class="badge-pill" style="border-color: rgba(244, 114, 182, 0.35); color: #F472B6; background: rgba(244, 114, 182, 0.08);">⚙️ Engineering</span>
             </div>
         </div>
         """, unsafe_allow_html=True)

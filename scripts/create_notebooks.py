@@ -49,6 +49,18 @@ def code_cell(code):
     }
 
 
+ROOT_SETUP = """# Robust project root setup (works from notebooks/ or workspace root)
+if os.path.exists('src'):
+    PROJECT_ROOT = os.path.abspath('.')
+elif os.path.exists('../src'):
+    PROJECT_ROOT = os.path.abspath('..')
+else:
+    PROJECT_ROOT = os.path.abspath('.')
+
+if PROJECT_ROOT not in sys.path:
+    sys.path.insert(0, PROJECT_ROOT)"""
+
+
 def create_01_data_audit():
     cells = [
         md_cell("""# Notebook 01: Comprehensive Dataset & Integrity Audit
@@ -61,22 +73,19 @@ This notebook performs an exhaustive, reproducible audit of the raw dataset:
 3. Performing full bidirectional reconciliation between `Resume.csv` and `resume_pdfs/`.
 4. Identifying empty resumes, corrupted entries, character encoding artifacts, and duplicates.
 5. Formulating the canonical dataset strategy to guarantee zero data leakage."""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import json
 import pandas as pd
 import numpy as np
 
-# Project root setup
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import CSV_PATH, PDF_DIR, REPORTS_DIR, CATEGORIES
 from src.data.dataset_builder import load_csv_dataset, enumerate_pdfs, reconcile_csv_pdf
 
-print(f"Project root: {PROJECT_ROOT}")
-print(f"Categories ({len(CATEGORIES)}): {CATEGORIES[:5]}...")"""),
+print(f"Project root: {{PROJECT_ROOT}}")
+print(f"Categories ({{len(CATEGORIES)}}): {{CATEGORIES[:5]}}...")"""),
         md_cell("""### 1. Load Raw CSV Dataset"""),
         code_cell("""csv_df = load_csv_dataset(CSV_PATH)
 print(f"Dataset Dimensions: {csv_df.shape[0]} rows, {csv_df.shape[1]} columns")
@@ -133,7 +142,7 @@ Provide comprehensive empirical analysis of resume properties:
 3. Most frequent terms and class-specific WordClouds.
 4. N-gram analysis (Unigrams, Bigrams, Trigrams).
 5. Discriminative vocabulary scoring per profession."""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import json
 import pandas as pd
@@ -143,27 +152,27 @@ import seaborn as sns
 from collections import Counter
 from wordcloud import WordCloud
 
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import CSV_PATH, FIGURES_DIR, CATEGORIES
 from src.preprocessing.text_cleaner import preprocess_resume
 
 df = pd.read_csv(CSV_PATH)
-df['word_count'] = df['Resume_str'].str.split().str.len()
-df['char_len'] = df['Resume_str'].str.len()
-print(f"Loaded {len(df)} resumes across {df['Category'].nunique()} categories")"""),
+df['word_count'] = df['Resume_str'].fillna('').str.split().str.len()
+df['char_len'] = df['Resume_str'].fillna('').str.len()
+print(f"Loaded {{len(df)}} resumes across {{df['Category'].nunique()}} categories")"""),
         md_cell("""### 1. Class Distribution Analysis"""),
         code_cell("""cat_counts = df['Category'].value_counts()
 print("Top 5 categories:")
 print(cat_counts.head(5))
-print("\nBottom 5 categories (minority classes):")
+print()
+print("Bottom 5 categories (minority classes):")
 print(cat_counts.tail(5))
 imbalance_ratio = cat_counts.max() / cat_counts.min()
-print(f"\nImbalance Ratio (Max/Min): {imbalance_ratio:.2f}")"""),
+print()
+print(f"Imbalance Ratio (Max/Min): {imbalance_ratio:.2f}")"""),
         code_cell("""plt.figure(figsize=(14, 6))
-sns.barplot(x=cat_counts.values, y=cat_counts.index, palette='viridis')
+sns.barplot(x=cat_counts.values, y=cat_counts.index, hue=cat_counts.index, palette='viridis', legend=False)
 plt.title('Resume Count per Category (24 Classes)')
 plt.xlabel('Number of Samples')
 plt.tight_layout()
@@ -174,7 +183,7 @@ sns.histplot(df['word_count'], bins=40, kde=True, ax=axes[0], color='teal')
 axes[0].set_title('Word Count Distribution')
 axes[0].set_xlabel('Words')
 
-sns.boxplot(x='word_count', y='Category', data=df, ax=axes[1], orient='h', palette='magma')
+sns.boxplot(x='word_count', y='Category', data=df, ax=axes[1], orient='h', hue='Category', palette='magma', legend=False)
 axes[1].set_title('Word Count by Category')
 axes[1].set_xlabel('Word Count')
 plt.tight_layout()
@@ -184,14 +193,14 @@ plt.show()"""),
 
 # TF-IDF across categories
 tfidf = TfidfVectorizer(max_features=5000, ngram_range=(1, 2), stop_words='english')
-X = tfidf.fit_transform(df['Resume_str'].dropna())
+X = tfidf.fit_transform(df['Resume_str'].fillna(''))
 features = tfidf.get_feature_names_out()
 
 # Display top terms for key classes
 for target in ['INFORMATION-TECHNOLOGY', 'HEALTHCARE', 'CHEF', 'FINANCE']:
-    mask = df['Category'] == target
-    cls_mean = X[mask].mean(axis=0).A1
-    rest_mean = X[~mask].mean(axis=0).A1
+    mask = (df['Category'] == target).to_numpy()
+    cls_mean = np.asarray(X[mask].mean(axis=0)).ravel()
+    rest_mean = np.asarray(X[~mask].mean(axis=0)).ravel()
     disc = cls_mean - rest_mean
     top_terms = [features[i] for i in disc.argsort()[-8:][::-1]]
     print(f"Top discriminative terms for {target}: {', '.join(top_terms)}")""")
@@ -215,14 +224,12 @@ Empirically test whether text cleaning operations help or hurt downstream classi
 - **Experiment D**: Normalization + Carefully Preserved Technical Tokens (C++, C#, .NET, Python, etc.).
 
 We use a fixed Logistic Regression classifier on the validation split to isolate the effect of preprocessing."""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import pandas as pd
 import numpy as np
 
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import REPORTS_DIR
 from src.preprocessing.text_cleaner import preprocess_resume, PRESETS, preprocess_with_preset
@@ -242,7 +249,8 @@ Notice the critical finding:
         code_cell("""sample_resume = "Senior Full-Stack Engineer with 5+ years experience in C++, C#, .NET, Python, and AWS CI/CD pipelines."
 print("Original:")
 print(sample_resume)
-print("\nCleaned with Technical Tokens Preserved:")
+print()
+print("Cleaned with Technical Tokens Preserved:")
 print(preprocess_resume(sample_resume))""")
     ]
     path = os.path.join(NOTEBOOKS_DIR, '03_preprocessing.ipynb')
@@ -263,15 +271,13 @@ Systematic evaluation of classical linear classifiers on TF-IDF representations:
 3. **Linear Support Vector Classifier (LinearSVC)** (margin maximization)
 4. N-gram range tuning: `(1,1)`, `(1,2)`, and `(1,3)`
 5. Hyperparameter tuning over regularizer `C`."""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import pandas as pd
 import numpy as np
 import joblib
 
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import REPORTS_DIR, MODELS_DIR, VECTORIZERS_DIR
 
@@ -311,15 +317,13 @@ Implement and evaluate a recurrent neural network architecture:
 1. **Word2Vec Representation**: Continuous skip-gram / CBOW embeddings trained strictly on training data (no leakage).
 2. **Sequential Architecture**: `Embedding(Word2Vec)` -> `SpatialDropout` -> `Bidirectional(LSTM)` -> `Dense` -> `Softmax`.
 3. **Training Dynamics**: Loss & Accuracy convergence, Early Stopping, Class Weighting."""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
 
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import FIGURES_DIR, REPORTS_DIR
 
@@ -329,7 +333,7 @@ if os.path.exists(curve_path):
     from IPython.display import Image
     display(Image(filename=curve_path))
 else:
-    print(f"Training curves will appear at {curve_path} after pipeline execution.")"""),
+    print(f"Training curves will appear at {{curve_path}} after pipeline execution.")"""),
         md_cell("""### Neural Model Architecture & Word2Vec Embeddings
 The Word2Vec model captures semantic proximity between technologies (e.g. `python` is close to `django`, `flask`, `pytorch`), enabling the neural network to generalize across synonymous skills.""")
     ]
@@ -350,13 +354,11 @@ Systematic comparison across Classical ML (TF-IDF + Linear Models) and Deep Lear
 - Metric 2: Weighted-F1
 - Metric 3: Accuracy
 - Metric 4: Inference Latency & Interpretability"""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import pandas as pd
 
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import REPORTS_DIR
 
@@ -385,20 +387,18 @@ Deep dive into classification mistakes on the test set:
 1. Identify high-frequency confusion pairs (e.g., `FINANCE` vs `ACCOUNTANT`, `ARTS` vs `TEACHER`).
 2. Categorize failure root causes: semantic overlap, multidisciplinary careers, vague text, or dataset noise.
 3. Propose actionable engineering improvements."""),
-        code_cell("""import os
+        code_cell(f"""import os
 import sys
 import pandas as pd
 
-PROJECT_ROOT = os.path.abspath('..')
-if PROJECT_ROOT not in sys.path:
-    sys.path.insert(0, PROJECT_ROOT)
+{ROOT_SETUP}
 
 from src.config import REPORTS_DIR
 
 err_path = os.path.join(REPORTS_DIR, 'error_analysis_classical.csv')
 if os.path.exists(err_path):
     err_df = pd.read_csv(err_path)
-    print(f"Total Analyzed Test Errors: {len(err_df)}")
+    print(f"Total Analyzed Test Errors: {{len(err_df)}}")
     display(err_df[['id', 'actual', 'predicted', 'possible_cause', 'text_preview']].head(10))
 else:
     print("Error analysis will be generated after pipeline execution.")"""),

@@ -399,7 +399,15 @@ err_path = os.path.join(REPORTS_DIR, 'error_analysis_classical.csv')
 if os.path.exists(err_path):
     err_df = pd.read_csv(err_path)
     print(f"Total Analyzed Test Errors: {{len(err_df)}}")
-    display(err_df[['id', 'actual', 'predicted', 'possible_cause', 'text_preview']].head(10))
+    id_col = 'resume_id' if 'resume_id' in err_df.columns else ('id' if 'id' in err_df.columns else err_df.columns[0])
+    cols_to_show = [c for c in [id_col, 'actual', 'predicted', 'possible_cause', 'text_preview'] if c in err_df.columns]
+    display(err_df[cols_to_show].head(10))
+    print("\\nTop 5 Confusion Pairs:")
+    confusion_pairs = err_df.groupby(['actual', 'predicted']).size().reset_index(name='count').sort_values('count', ascending=False)
+    display(confusion_pairs.head(5))
+    if 'possible_cause' in err_df.columns:
+        print("\\nFailure Cause Breakdown:")
+        display(err_df['possible_cause'].value_counts().to_frame())
 else:
     print("Error analysis will be generated after pipeline execution.")"""),
         md_cell("""### Key Findings

@@ -338,41 +338,70 @@ div[role="radiogroup"] label p {
 """, unsafe_allow_html=True)
 
 
+# ── Lucide SVG Icons Library ──
+LUCIDE_SVGS = {
+    "zap": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>',
+    "shield-check": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>',
+    "file-text": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg>',
+    "file-input": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/><polyline points="14 2 14 8 20 8"/><path d="M2 15h10"/><polyline points="9 18 12 15 9 12"/></svg>',
+    "target": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+    "bar-chart": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>',
+    "search": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" x2="16.65" y1="21" y2="16.65"/></svg>',
+    "sparkles": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>',
+    "layers": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+    "cpu": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>',
+    "award": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>',
+    "timer": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><line x1="10" x2="14" y1="2" y2="2"/><line x1="12" x2="15" y1="14" y2="11"/><circle cx="12" cy="14" r="8"/></svg>',
+    "code-2": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>',
+    "activity": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
+    "utensils": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2"/><path d="M15 11v11"/><path d="M5 2v10a2 2 0 0 0 2 2h1v8"/><path d="M8 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2V2"/></svg>',
+    "trending-up": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
+    "file-search": '<svg xmlns="http://www.w3.org/2000/svg" width="{s}" height="{s}" viewBox="0 0 24 24" fill="none" stroke="{c}" stroke-width="{w}" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M4.268 21a2 2 0 0 0 1.732 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"/><circle cx="8" cy="14" r="3"/><path d="m10.5 16.5 2 2"/></svg>',
+}
+
+def lucide_icon(name: str, size: int = 16, color: str = "currentColor", stroke_width: float = 2.0) -> str:
+    template = LUCIDE_SVGS.get(name, "")
+    if not template:
+        return ""
+    svg = template.format(s=size, c=color, w=stroke_width)
+    return f'<span style="display: inline-flex; align-items: center; justify-content: center; vertical-align: -0.15em; margin-right: 0.35rem;">{svg}</span>'
+
+
 # ── Header Banner ──
-st.markdown("""
+st.markdown(f"""
 <div class="hero-header">
     <div class="hero-title-group">
         <h1>ResumeForge 2026</h1>
         <p>Industrial Multiclass Resume Classification Engine • 24 Professional Categories</p>
     </div>
     <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <span class="badge-pill">⚡ LinearSVC + TF-IDF</span>
-        <span class="badge-pill">🛡️ Zero Data Leakage</span>
-        <span class="badge-pill">📄 Native PDF Extraction</span>
+        <span class="badge-pill">{lucide_icon('zap', 14, '#C7D2FE')} LinearSVC + TF-IDF</span>
+        <span class="badge-pill">{lucide_icon('shield-check', 14, '#34D399')} Zero Data Leakage</span>
+        <span class="badge-pill">{lucide_icon('file-text', 14, '#38BDF8')} Native PDF Extraction</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ── System KPI Metrics Bar ──
-st.markdown("""
+st.markdown(f"""
 <div class="metrics-grid">
     <div class="metric-card kpi-emerald">
-        <div class="metric-card-label">Industry Categories</div>
+        <div class="metric-card-label">{lucide_icon('layers', 13, '#10B981')} Industry Categories</div>
         <div class="metric-card-val" style="color: #34D399;">24 Domains</div>
         <div class="metric-card-sub" style="color: #6EE7B7;">Baseline Chance: 4.16%</div>
     </div>
     <div class="metric-card kpi-cyan">
-        <div class="metric-card-label">Production Model</div>
+        <div class="metric-card-label">{lucide_icon('cpu', 13, '#06B6D4')} Production Model</div>
         <div class="metric-card-val" style="color: #38BDF8;">LinearSVC</div>
         <div class="metric-card-sub" style="color: #7DD3FC;">Class Weight: Balanced</div>
     </div>
     <div class="metric-card kpi-indigo">
-        <div class="metric-card-label">Test Macro-F1</div>
+        <div class="metric-card-label">{lucide_icon('award', 13, '#8B5CF6')} Test Macro-F1</div>
         <div class="metric-card-val" style="color: #A78BFA;">63.05%</div>
         <div class="metric-card-sub" style="color: #C4B5FD;">Accuracy: 67.83%</div>
     </div>
     <div class="metric-card kpi-amber">
-        <div class="metric-card-label">Inference Latency</div>
+        <div class="metric-card-label">{lucide_icon('timer', 13, '#F59E0B')} Inference Latency</div>
         <div class="metric-card-val" style="color: #FBBF24;">&lt; 1.5 ms</div>
         <div class="metric-card-sub" style="color: #FDE68A;">Sub-millisecond Vectorizer</div>
     </div>
@@ -408,18 +437,18 @@ col_input, col_output = st.columns([5, 7], gap="medium")
 # LEFT COLUMN: INPUT CONTROLS
 # ═══════════════════════════════════════════════════════════════
 with col_input:
-    st.markdown('<div class="panel-title">📥 Resume Input Selection</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="panel-title">{lucide_icon("file-input", 19, "#818CF8")} Resume Input Selection</div>', unsafe_allow_html=True)
     
     input_method = st.radio(
         "Choose Input Format:",
-        ["📁 Upload PDF Resume", "📋 Paste Plain Text"],
+        ["Upload PDF Resume", "Paste Plain Text"],
         horizontal=True,
     )
     
     resume_text = ""
     uploaded_pdf_path = None
 
-    if input_method == "📁 Upload PDF Resume":
+    if input_method == "Upload PDF Resume":
         uploaded_file = st.file_uploader(
             "Drop your PDF resume here:",
             type=['pdf'],
@@ -437,7 +466,7 @@ with col_input:
             placeholder="Paste raw resume text, education, experience, and skills here...",
         )
     
-    classify_btn = st.button("🚀 Analyze & Classify Resume", type="primary", use_container_width=True)
+    classify_btn = st.button("Analyze & Classify Resume", type="primary", use_container_width=True, icon=":material/rocket_launch:")
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -490,7 +519,7 @@ with col_output:
         # ── 1. Primary Classification Champion Card (100-Basis Display) ──
         st.markdown(f"""
         <div class="prediction-champion">
-            <div class="champion-label">🎯 Primary Predicted Vertical</div>
+            <div class="champion-label">{lucide_icon('target', 15, '#A78BFA')} Primary Predicted Vertical</div>
             <div class="champion-category">{pred_cat}</div>
             <div style="font-size: 2.2rem; font-weight: 800; color: #38BDF8; margin: 0.2rem 0;">
                 {match_score_100}% <span style="font-size: 1rem; font-weight: 600; color: #94A3B8;">/ 100 Match Confidence</span>
@@ -504,9 +533,9 @@ with col_output:
         """, unsafe_allow_html=True)
         
         # ── 2. Top-5 Competitive Ranking (Normalized on Basis of 100%) ──
-        st.markdown("""
+        st.markdown(f"""
         <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.8rem;">
-            <div class="panel-title" style="margin-bottom: 0;">📊 Top-5 Contender Share (Normalized to 100%)</div>
+            <div class="panel-title" style="margin-bottom: 0;">{lucide_icon('bar-chart', 19, '#38BDF8')} Top-5 Contender Share (Normalized to 100%)</div>
             <div style="font-size: 0.75rem; color: #94A3B8; font-weight: 600;">Sums to 100.0% across top candidates</div>
         </div>
         """, unsafe_allow_html=True)
@@ -539,40 +568,42 @@ with col_output:
             detected_keywords = [kw for kw in expected_keywords if kw in lower_text]
             
             if detected_keywords:
-                st.markdown('<div class="panel-title" style="margin-top: 1rem;">🔍 Detected Discriminative Terms</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="panel-title" style="margin-top: 1rem;">{lucide_icon("search", 18, "#22D3EE")} Detected Discriminative Terms</div>', unsafe_allow_html=True)
                 tags_html = "".join([f'<span class="keyword-tag">{kw.upper()}</span>' for kw in detected_keywords])
                 st.markdown(f'<div>{tags_html}</div>', unsafe_allow_html=True)
         
         # ── 4. Faculty & Jury Evaluator Guidance ──
-        st.markdown("""
+        st.markdown(f"""
         <div class="faculty-note">
-            <strong>💡 Note for Faculty & Jury Evaluation:</strong><br>
+            <strong>{lucide_icon('sparkles', 15, '#818CF8')} Note for Faculty & Jury Evaluation:</strong><br>
             • <strong>24-Class Multi-class Context:</strong> In a 24-category problem, random chance guessing is <strong>4.16%</strong> (100% ÷ 24). Scores between <strong>6.5% and 15%+</strong> denote statistically dominant decision margins over the other 23 categories.<br>
             • <strong>Model Decision Function:</strong> The production LinearSVC calculates hyper-plane geometric distance (margins). Probabilities are computed via Softmax over all 24 classes, maintaining rigorous calibration without artificial overconfidence.
         </div>
         """, unsafe_allow_html=True)
 
         # ── 5. Extracted Text Inspector ──
-        with st.expander("📄 View Normalized Extracted Resume Text"):
+        with st.expander("View Normalized Extracted Resume Text", icon=":material/article:"):
             words = extracted_text_preview.split()
             st.caption(f"Token Count: {len(words)} words | Character Length: {len(extracted_text_preview)} chars")
             st.text_area("Extracted Content", extracted_text_preview[:2500], height=160, disabled=True)
 
     else:
         # Default placeholder when no resume has been submitted yet
-        st.markdown("""
+        st.markdown(f"""
         <div class="glass-panel" style="text-align: center; padding: 3.5rem 2rem; border: 1.5px dashed rgba(99, 102, 241, 0.35);">
-            <div style="font-size: 3.2rem; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 16px rgba(99, 102, 241, 0.45));">📑</div>
+            <div style="margin-bottom: 0.8rem; filter: drop-shadow(0 4px 16px rgba(99, 102, 241, 0.45));">
+                {lucide_icon('file-search', 56, '#818CF8', stroke_width=1.75)}
+            </div>
             <h3 style="color: #F8FAFC; margin: 0; font-size: 1.45rem; font-weight: 700;">Awaiting Resume Submission</h3>
             <p style="color: #94A3B8; max-width: 480px; margin: 0.6rem auto 1.6rem auto; font-size: 0.92rem; line-height: 1.55;">
                 Upload a candidate PDF resume on the left or paste plain text to view real-time multiclass classification across 24 industry sectors.
             </p>
             <div style="display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap;">
-                <span class="badge-pill" style="border-color: rgba(56, 189, 248, 0.35); color: #38BDF8; background: rgba(56, 189, 248, 0.08);">💻 IT & Software</span>
-                <span class="badge-pill" style="border-color: rgba(52, 211, 153, 0.35); color: #34D399; background: rgba(52, 211, 153, 0.08);">🏥 Healthcare</span>
-                <span class="badge-pill" style="border-color: rgba(251, 191, 36, 0.35); color: #FBBF24; background: rgba(251, 191, 36, 0.08);">🍳 Culinary</span>
-                <span class="badge-pill" style="border-color: rgba(167, 139, 250, 0.35); color: #A78BFA; background: rgba(167, 139, 250, 0.08);">📊 Banking & Finance</span>
-                <span class="badge-pill" style="border-color: rgba(244, 114, 182, 0.35); color: #F472B6; background: rgba(244, 114, 182, 0.08);">⚙️ Engineering</span>
+                <span class="badge-pill" style="border-color: rgba(56, 189, 248, 0.35); color: #38BDF8; background: rgba(56, 189, 248, 0.08);">{lucide_icon('code-2', 13, '#38BDF8')} IT & Software</span>
+                <span class="badge-pill" style="border-color: rgba(52, 211, 153, 0.35); color: #34D399; background: rgba(52, 211, 153, 0.08);">{lucide_icon('activity', 13, '#34D399')} Healthcare</span>
+                <span class="badge-pill" style="border-color: rgba(251, 191, 36, 0.35); color: #FBBF24; background: rgba(251, 191, 36, 0.08);">{lucide_icon('utensils', 13, '#FBBF24')} Culinary</span>
+                <span class="badge-pill" style="border-color: rgba(167, 139, 250, 0.35); color: #A78BFA; background: rgba(167, 139, 250, 0.08);">{lucide_icon('trending-up', 13, '#A78BFA')} Banking & Finance</span>
+                <span class="badge-pill" style="border-color: rgba(244, 114, 182, 0.35); color: #F472B6; background: rgba(244, 114, 182, 0.08);">{lucide_icon('cpu', 13, '#F472B6')} Engineering</span>
             </div>
         </div>
         """, unsafe_allow_html=True)
